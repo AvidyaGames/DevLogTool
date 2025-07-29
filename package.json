@@ -1,0 +1,14 @@
+{
+  "name": "com.avidyagames.devlogtool",
+  "version": "1.0.0",
+  "displayName": "Dev-Log Tool",
+  "description": "tools to track thoughts about work over time.",
+  "unity": "2019.1",
+  "dependencies": {
+  },
+  "author": {
+    "name": "AvidyaGames",
+    "email": "contact@avidyagames.com",
+    "URL": "https://www.stormhughes.com"
+  }
+}
