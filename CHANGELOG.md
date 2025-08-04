@@ -1,3 +1,6 @@
-## [1.0.0] - 2025-07-29
+## \[1.0.0] - 2025-08-04
+
 ### First Release
--basic product structures
+
+-Basic Journaling Features + Saving to file
+
