@@ -86,7 +86,7 @@ public class LoggerWindow : EditorWindow
             ShowWindow();
         }
         GUILayout.EndHorizontal();
-        _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.Width(position.width), GUILayout.Height(position.height)); 
+        _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, true, true, GUILayout.Width(position.width), GUILayout.Height(position.height + 64)); 
         if (_progress.isViewingPast == false && _progress.initialEntryCompleted == false)
         {
             if (_progress.inited == false)
@@ -95,9 +95,32 @@ public class LoggerWindow : EditorWindow
                 _progress.inited = true; 
             }
 
+            GUILayout.BeginHorizontal();
+            if (_activeEntry.TimeStamp == default)
+            {
+                GUILayout.Label("Drafting");
+            }
+            else
+            {
+                GUILayout.Label("Drafted");
+            }
             
-            GUILayout.Label("Drafting");
-            
+            if (_activeEntry.TimeStamp != default && String.IsNullOrEmpty(_activeEntry.feelResponse) || String.IsNullOrEmpty(_activeEntry.whatResponse))
+            {
+                GUILayout.Label("Entry Empty: Please Fill");
+            }
+            else
+            {
+                if (_activeEntry.TimeStamp == default && 
+                    GUILayout.Button("Complete Ritual"))
+                {
+                
+                    _progress.initialEntryCompleted = true; 
+                    AddEntry(_activeEntry);
+                    SaveEntry();
+                }   
+            }
+            GUILayout.EndHorizontal();
             _activeEntry.feelPrompt = GUILayout.TextField(_activeEntry.feelPrompt); 
             GUILayout.Space(4);
             _activeEntry.feelResponse = GUILayout.TextArea(_activeEntry.feelResponse);
@@ -133,27 +156,17 @@ public class LoggerWindow : EditorWindow
 
 
             GUILayout.Space(12);
-
-            if (_activeEntry.TimeStamp == default && 
-                _activeEntry.feelResponse != null && 
-                _activeEntry.whatResponse != null && 
-                GUILayout.Button("Complete Ritual"))
-                
-                
-            {
-                
-                _progress.initialEntryCompleted = true; 
-                AddEntry(_activeEntry);
-                SaveEntry();
-            }
+            
         }
         else
         {
             GUILayout.Label("The Past");
-            int c = memory.entries.Length; 
-            for (int i = 0; i < c ; i++)
+            if (memory.entries != null)
             {
-                GUILayout.BeginHorizontal();
+                int c = memory.entries.Length; 
+                for (int i = 0; i < c ; i++)
+                {
+                    GUILayout.BeginHorizontal();
                     if (GUILayout.Button(new DateTime(memory.entries[i].TimeStamp).ToString()))
                     {
                         _activeEntry = memory.entries[i];
@@ -172,12 +185,13 @@ public class LoggerWindow : EditorWindow
                     { 
                         previewDo = memory.entries[i].whatResponse.Substring(0, Mathf.Min(memory.entries[i].whatResponse.Length,120)) + "..."; 
                     }
-                GUILayout.BeginVertical();
-                        GUILayout.Label(preview,previewStyle);
-                        GUILayout.Label(previewDo,previewDoStyle);
-                GUILayout.EndVertical();
+                    GUILayout.BeginVertical();
+                    GUILayout.Label(preview,previewStyle);
+                    GUILayout.Label(previewDo,previewDoStyle);
+                    GUILayout.EndVertical();
                 
-                GUILayout.EndHorizontal();
+                    GUILayout.EndHorizontal();
+                }   
             }
         }
         
