@@ -4,3 +4,6 @@
 
 -Basic Journaling Features + Saving to file
 
+\[1.0.1] - 2025-08-07
+-Fixed Initial file creation, enabling experience to function at all. 
+

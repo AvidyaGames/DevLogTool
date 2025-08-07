@@ -9,6 +9,7 @@ using Unity.Plastic.Antlr3.Runtime;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Windows;
+using Directory = System.IO.Directory;
 using File = UnityEngine.Windows.File;
 
 
@@ -31,7 +32,7 @@ public class LoggerWindow : EditorWindow
     public SaveFile memory; 
     private const string parentFolder = "Assets/"; 
     private const string SaveFolder = "DevJournal/";
-    private string saveFile = "journal"; 
+    private const string saveFile = "journal"; 
     //private DataEntry _activeEntry; 
 
     
@@ -44,14 +45,11 @@ public class LoggerWindow : EditorWindow
         LoggerWindow logger = wnd as LoggerWindow;
         logger._progress = default; 
         _activeEntry = startTemplate;
-        logger.CheckForFolder();
-        
         logger.previewStyle = logger._defaultSkin.GetStyle("previewText");
         logger.previewDoStyle = logger._defaultSkin.GetStyle("previewDoText");
         logger.resetButton = logger._defaultSkin.GetStyle("resetButton"); 
         //Replace with loading and were good; 
         logger.LoadFile();
-        Debug.Log(logger.memory.ToString());
         wnd.titleContent = new GUIContent("Dev Diary"); 
     }
 
@@ -71,6 +69,11 @@ public class LoggerWindow : EditorWindow
         if (ReferenceEquals(_defaultSkin, null) == false)
         { 
             GUI.skin = _defaultSkin; 
+        }
+        //gui not loaded or smthn
+        if (resetButton == null)
+        {
+            ShowWindow();
         }
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Past Entries"))
@@ -118,6 +121,7 @@ public class LoggerWindow : EditorWindow
                     _progress.initialEntryCompleted = true; 
                     AddEntry(_activeEntry);
                     SaveEntry();
+                    AssetDatabase.Refresh();
                 }   
             }
             GUILayout.EndHorizontal();
@@ -308,6 +312,7 @@ public class LoggerWindow : EditorWindow
         }
         else
         {
+            Directory.CreateDirectory(Application.dataPath + "/" + SaveFolder); 
             memory = new SaveFile(); 
         }
         
