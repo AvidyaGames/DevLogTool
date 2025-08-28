@@ -1,8 +1,8 @@
 {
-  "name": "com.avidyagames.devlogtool",
-  "version": "1.0.0",
-  "displayName": "Dev-Log Tool",
-  "description": "tools to track thoughts about work over time.",
+  "name": "com.avidyagames.devdiary",
+  "version": "1.0.2",
+  "displayName": "DevDiary",
+  "description": "Dont fear your feelings, record them",
   "unity": "2019.1",
   "dependencies": {
   },

@@ -12,7 +12,5 @@
 -Updated Color Scheme
 -Changed save location to Assets/DevDiary/entries
 
--exposed directory name and file name to script serialization in editor incase users want to change location and name. final "/" are added internally
-
--Stopped checking for entry content to allow saving entries, 
+-Stopped checking for entry content to allow saving entries, prevents loss of active text box when typing into the required text box. 
 
