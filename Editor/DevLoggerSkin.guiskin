@@ -85,7 +85,7 @@ MonoBehaviour:
     m_Normal:
       m_Background: {fileID: 11006, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.9921569, g: 0.9843138, b: 0.7686275, a: 1}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
     m_Hover:
       m_Background: {fileID: 11003, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
@@ -219,7 +219,7 @@ MonoBehaviour:
     m_Normal:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.8862746, g: 0.45882356, b: 0.3137255, a: 1}
+      m_TextColor: {r: 0.24124241, g: 0.6052223, b: 0.83800006, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_ScaledBackgrounds: []
@@ -353,7 +353,7 @@ MonoBehaviour:
     m_Normal:
       m_Background: {fileID: 11024, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.9921569, g: 0.9843138, b: 0.7686275, a: 1}
+      m_TextColor: {r: 0.8862746, g: 0.45882356, b: 0.3137255, a: 1}
     m_Hover:
       m_Background: {fileID: 2800000, guid: ca6570bc52237c74f91c2ed9cf91ac87, type: 3}
       m_ScaledBackgrounds: []
@@ -1556,7 +1556,7 @@ MonoBehaviour:
     m_Normal:
       m_Background: {fileID: 11006, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []
-      m_TextColor: {r: 0.8018868, g: 0.10893552, b: 0.23335703, a: 1}
+      m_TextColor: {r: 0.8862746, g: 0.45882356, b: 0.3137255, a: 1}
     m_Hover:
       m_Background: {fileID: 11003, guid: 0000000000000000e000000000000000, type: 0}
       m_ScaledBackgrounds: []

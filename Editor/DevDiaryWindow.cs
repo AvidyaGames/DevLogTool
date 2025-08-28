@@ -1,19 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using JetBrains.Annotations;
-using Unity.Plastic.Antlr3.Runtime;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Windows;
 using Directory = System.IO.Directory;
 using File = UnityEngine.Windows.File;
 
 
-public class LoggerWindow : EditorWindow
+public class DevDiaryWindow : EditorWindow
 {
     //assigned in editor!
     public GUISkin _defaultSkin;
@@ -30,9 +24,9 @@ public class LoggerWindow : EditorWindow
     
     
     public SaveFile memory; 
-    private const string parentFolder = "Assets/"; 
-    private const string SaveFolder = "DevJournal/";
-    private const string saveFile = "journal"; 
+    public string parentFolder = "Assets"; 
+    public string saveFolder = "DevDiary";
+    public string saveFile = "entries"; 
     //private DataEntry _activeEntry; 
 
     
@@ -41,8 +35,8 @@ public class LoggerWindow : EditorWindow
     public static void ShowWindow()
     {
         
-        EditorWindow wnd = GetWindow<LoggerWindow>();
-        LoggerWindow logger = wnd as LoggerWindow;
+        EditorWindow wnd = GetWindow<DevDiaryWindow>();
+        DevDiaryWindow logger = wnd as DevDiaryWindow;
         logger._progress = default; 
         _activeEntry = startTemplate;
         logger.previewStyle = logger._defaultSkin.GetStyle("previewText");
@@ -53,10 +47,7 @@ public class LoggerWindow : EditorWindow
         wnd.titleContent = new GUIContent("Dev Diary"); 
     }
 
-    private void Awake()
-    {
-        
-    }
+
 
     private void OnEnable()
     {
@@ -108,22 +99,14 @@ public class LoggerWindow : EditorWindow
                 GUILayout.Label("Drafted");
             }
             
-            if (_activeEntry.TimeStamp != default && String.IsNullOrEmpty(_activeEntry.feelResponse) || String.IsNullOrEmpty(_activeEntry.whatResponse))
+            if (GUILayout.Button("Complete Ritual"))
             {
-                GUILayout.Label("Entry Empty: Please Fill");
+                _progress.initialEntryCompleted = true; 
+                AddEntry(_activeEntry);
+                SaveEntry();
+                AssetDatabase.Refresh();
             }
-            else
-            {
-                if (_activeEntry.TimeStamp == default && 
-                    GUILayout.Button("Complete Ritual"))
-                {
-                
-                    _progress.initialEntryCompleted = true; 
-                    AddEntry(_activeEntry);
-                    SaveEntry();
-                    AssetDatabase.Refresh();
-                }   
-            }
+            
             GUILayout.EndHorizontal();
             _activeEntry.feelPrompt = GUILayout.TextField(_activeEntry.feelPrompt); 
             GUILayout.Space(4);
@@ -251,21 +234,19 @@ public class LoggerWindow : EditorWindow
     
     private  bool CheckForFolder()
     {
-        if (AssetDatabase.IsValidFolder(parentFolder + SaveFolder))
+        if (AssetDatabase.IsValidFolder(parentFolder+"/" + saveFolder+"/"))
         {
-            Debug.Log("Folder Exists");
             return true; 
         }
         else
         {
-            AssetDatabase.CreateFolder(parentFolder,SaveFolder); 
-            
+            AssetDatabase.CreateFolder(parentFolder+"/",saveFolder+"/"); 
             return true; 
         }
         return false; 
     }
 
-    public void AddEntry(LoggerWindow.DataEntry entry)
+    public void AddEntry(DevDiaryWindow.DataEntry entry)
     {
         if (memory.entries == null)
         {
@@ -283,7 +264,7 @@ public class LoggerWindow : EditorWindow
     }
     public void SaveEntry()
     {
-     using (FileStream stream = new FileStream(Application.dataPath + "/" + SaveFolder + saveFile + ".tvt", FileMode.Create))
+     using (FileStream stream = new FileStream(Application.dataPath + "/" + saveFolder+"/" + saveFile + ".txt", FileMode.Create))
      {
             var formatter = new BinaryFormatter();
             var data = memory; 
@@ -296,9 +277,9 @@ public class LoggerWindow : EditorWindow
 
     public void LoadFile()
     {
-        if (File.Exists(Application.dataPath + "/" + SaveFolder + saveFile + ".tvt"))
+        if (File.Exists(Application.dataPath + "/" + saveFolder+"/" + saveFile + ".txt"))
         {
-            using (FileStream stream = new FileStream(Application.dataPath + "/" + SaveFolder + saveFile + ".tvt", FileMode.Open))
+            using (FileStream stream = new FileStream(Application.dataPath + "/" + saveFolder+"/" + saveFile + ".txt", FileMode.Open))
             {
                 var formatter = new BinaryFormatter();
                 SaveFile file = formatter.Deserialize(stream) as SaveFile;
@@ -312,7 +293,7 @@ public class LoggerWindow : EditorWindow
         }
         else
         {
-            Directory.CreateDirectory(Application.dataPath + "/" + SaveFolder); 
+            Directory.CreateDirectory(Application.dataPath + "/" + saveFolder+"/"); 
             memory = new SaveFile(); 
         }
         
@@ -334,7 +315,7 @@ public class LoggerWindow : EditorWindow
     public class SaveFile
     {
         public string count;
-        public LoggerWindow.DataEntry[] entries; 
+        public DevDiaryWindow.DataEntry[] entries; 
     }
     
 }
